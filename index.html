@@ -1,3 +1,202 @@
-123
-sbhshshshjsa
-hdiakaj
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="msapplication-tap-highlight" content="no" />
+  <meta name="format-detection" content="telephone=no" />
+  <script type="text/javascript" src="/yujian/sweetalert2.all.min.js"></script>
+  <script type="text/javascript" src="/yujian/js/vue.min.js"></script>
+
+  <!-- v-cloak -->
+  <style type="text/css">
+    [v-cloak] {
+      display: none !important;
+    }
+  </style>
+  <!-- end for v-cloak -->
+
+  <style type="text/css">
+    .swal-input-bottom {
+      margin-bottom: 0px !important;
+      font-size: 1rem !important;
+    }
+    
+    .swal-btn-size {
+      font-size: 0.8rem !important;
+    }
+    
+    .swal2-popup .swal2-validation-message {
+      background: #d0d0d0;
+      width: 100% !important;
+      margin-left: -12px !important;
+    }
+    
+    body {
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+    
+    .main {
+      margin: 0;
+      height: 100%;
+      background-color: #8e8250;
+      overflow-y：auto;
+    }
+    
+    .main .title {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      font-size: 2rem;
+      text-align: center;
+    }
+    
+    .main .readme {
+      font-size: 1rem;
+    }
+    
+    .main table.gridtable {
+      font-family: verdana, arial, sans-serif;
+      font-size: 11px;
+      color: #333333;
+      border-width: 1px;
+      border-color: #666666;
+      border-collapse: collapse;
+      text-align: center;
+      table-layout: fixed;
+    }
+    
+    .main table.gridtable th {
+      border-width: 1px;
+      padding: 8px;
+      border-style: solid;
+      border-color: #666666;
+      background-color: #dedede;
+    }
+    
+    .main table.gridtable td {
+      border-width: 1px;
+      padding: 8px;
+      border-style: solid;
+      border-color: #666666;
+      background-color: #ffffff;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    .main table.gridtable button {
+        margin-top:5px
+    }
+    
+    .main .add {
+      float: right;
+    }
+  </style>
+
+  <script>
+    var resize = function(width, height) {
+      var app = document.getElementById("app");
+      if (width > height) {
+        app.style.width = (height * 9 / 16) + "px";
+      } else {
+        app.style.width = width + "px";
+      }
+      app.style.height = "100%"; // 重置内容高度
+      if (document.body.offsetHeight && document.body.offsetHeight <= height) {
+        app.style.height = height + "px";
+      }
+    };
+    window.addEventListener("resize", function(e) {
+      resize(window.innerWidth, window.innerHeight);
+    });
+    window.addEventListener("load", function(e) {
+      resize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+  <title>遇剑80辅助</title>
+</head>
+
+<body>
+  <div id="app" class="main" v-cloak>
+    <div class="title">遇剑80辅助</div>
+
+    <table border="1" class="gridtable">
+      <tr>
+        <th>ID</th>
+        <th>服区</th>
+        <th width="100%">操作</th>
+      </tr>
+      <tr v-for="(link, index) in links">
+        <td>{{link.param.id}}</td>
+        <td>{{link.param.area}}</td>
+        <td width="100%" style="text-align:left">
+          <button @click="del(index)">删除链接</button>
+          <button @click="gift(link)">领激活码</button>
+          <button @click="active(link)">用激活码</button>
+          <button @click="goOffical(link)">官方入口</button>
+          <button v-if="link.entry" @click="goYujian(link)">在线脚本</button>
+        </td>
+      </tr>
+    </table>
+
+    <p/>
+    <div class="readme">
+      说明：
+
+      <p/>
+      <div>
+        &nbsp&nbsp&nbsp&nbsp*登录<a target="view_window" href="http://res.xxmud.cn/site/sword/index.html">官方入口</a>，获得登录链接后<span @click="add()" style="color:blue;text-decoration:underline;">增加链接</span>，然后点击表格中的对应激活功能进行激活，首次使用时会自动赠送一个月体验期, 可以直接下载使用再激活。
+      </div>
+
+      <p/>
+      <div>
+        &nbsp&nbsp&nbsp&nbsp*<span @click="transfer()" style="color:blue;text-decoration:underline;">激活转移</span>，将A账号的授权转出给B，转移后A的授权将被清除。账号id为在游戏链接中的id。
+      </div>
+
+      <p/>
+      <div>
+       &nbsp&nbsp&nbsp&nbsp*PC端建议使用Chrome,安卓建议使用Firefox, 苹果手机建议用Safari</a>
+      </div>
+
+      <p/>
+      <div>
+        &nbsp&nbsp&nbsp&nbsp*<a href="https://lib10.cn/yujian/yujian-80-vip.user.js" target="view_window">VIP安装版点击安装(需已装Tampermonkey，安装后注意关闭原来脚本)</a>
+      </div>
+
+      <p/>
+      <div>
+        &nbsp&nbsp&nbsp&nbsp*<a href="https://lib10.cn/yujian/yujian-vip-dev.user.js" target="view_window">VIP源码版点击安装(需已装Tampermonkey，安装后注意关闭原来脚本)</a>
+      </div>
+
+      <p/>
+      <div>
+        &nbsp&nbsp&nbsp&nbsp*<a href="https://lib10.cn/#/yujian" target="view_window">功能详细文档</a><br/>
+      </div>
+
+      <p/>
+      <div>
+       &nbsp&nbsp&nbsp&nbsp*<a href="/yujian/html/vd-android.html" target="view_window" >Tampermonkey安卓安装视频教程-约13M流量</a>
+      </div>
+
+      <p/>
+      <div>
+       &nbsp&nbsp&nbsp&nbsp*<a href="/yujian/html/vd-ios.html" target="view_window">在线版使用视频教程-约4M流量</a>
+      </div>
+
+      <p/>
+      <div>
+       &nbsp&nbsp&nbsp&nbsp*<a href="https://mobile.baidu.com/item?docid=24959738&source=aladdin%40wise_app_23%40button&ala=wise_app%40strong%40firefox%E6%89%8B%E6%9C%BA%E6%B5%8F%E8%A7%88%E5%99%A8&from=1015530m" target="view_window">下载安卓版Firefox(普通下载不会安装百度助手，约32.2M)</a>
+      </div>
+
+    </div>
+
+  </div>
+</body>
+
+<script type="text/javascript" src="/yujian/js/entry.js?v=1"></script>
+
+</html>
